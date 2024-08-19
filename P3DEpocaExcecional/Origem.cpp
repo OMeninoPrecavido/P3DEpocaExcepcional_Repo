@@ -19,22 +19,38 @@
 
 //Vértices do triângulo
 GLfloat vertices[] =
-{ // COORDENADAS //
-	-0.5f, 0.0f,  0.5f,
-	-0.5f, 0.0f, -0.5f,
-	 0.5f, 0.0f, -0.5f,
-	 0.5f, 0.0f,  0.5f,
-	 0.0f, 0.8f,  0.0f
+{ //     COORDINATES     /        NORMALS       //
+	-0.5f, 0.0f,  0.5f,     0.0f, -1.0f, 0.0f, // Bottom side
+	-0.5f, 0.0f, -0.5f,     0.0f, -1.0f, 0.0f, // Bottom side
+	 0.5f, 0.0f, -0.5f,     0.0f, -1.0f, 0.0f, // Bottom side
+	 0.5f, 0.0f,  0.5f,     0.0f, -1.0f, 0.0f, // Bottom side
+
+	-0.5f, 0.0f,  0.5f,     -0.8f, 0.5f,  0.0f, // Left Side
+	-0.5f, 0.0f, -0.5f,     -0.8f, 0.5f,  0.0f, // Left Side
+	 0.0f, 0.8f,  0.0f,     -0.8f, 0.5f,  0.0f, // Left Side
+
+	-0.5f, 0.0f, -0.5f,     0.0f, 0.5f, -0.8f, // Non-facing side
+	 0.5f, 0.0f, -0.5f,     0.0f, 0.5f, -0.8f, // Non-facing side
+	 0.0f, 0.8f,  0.0f,     0.0f, 0.5f, -0.8f, // Non-facing side
+
+	 0.5f, 0.0f, -0.5f,     0.8f, 0.5f,  0.0f, // Right side
+	 0.5f, 0.0f,  0.5f,     0.8f, 0.5f,  0.0f, // Right side
+	 0.0f, 0.8f,  0.0f,     0.8f, 0.5f,  0.0f, // Right side
+
+	 0.5f, 0.0f,  0.5f,     0.0f, 0.5f,  0.8f, // Facing side
+	-0.5f, 0.0f,  0.5f,     0.0f, 0.5f,  0.8f, // Facing side
+	 0.0f, 0.8f,  0.0f,     0.0f, 0.5f,  0.8f  // Facing side
 };
 
+//Índices usados pelo EBO
 GLuint indices[] =
 {
-	0, 1, 2,
-	0, 2, 3,
-	0, 1, 4,
-	1, 2, 4,
-	2, 3, 4,
-	3, 0, 4
+	0, 1, 2, // Bottom side
+	0, 2, 3, // Bottom side
+	4, 6, 5, // Left side
+	7, 9, 8, // Non-facing side
+	10, 12, 11, // Right side
+	13, 15, 14 // Facing side
 };
 
 int main(void) {
@@ -96,18 +112,24 @@ int main(void) {
 	//Criação do VBO
 	VBO VBO1(vertices, sizeof(vertices));
 
+	//Criação do EBO
 	EBO EBO1(indices, sizeof(indices));
 
 	//Especificação dos atributos a ser interpretados pelo VAO
-	VAO1.LinkAttrib(VBO1, 0, 3, GL_FLOAT, 3 * sizeof(float), (void*)0);
+	VAO1.LinkAttrib(VBO1, 0, 3, GL_FLOAT, 6 * sizeof(float), (void*)0);
+	VAO1.LinkAttrib(VBO1, 1, 3, GL_FLOAT, 6 * sizeof(float), (void*)(3 * sizeof(float)));
 
-	//Unbinding do VBO e VAO
+	//Unbinding do VBO, VAO e EBO
 	VAO1.Unbind();
 	VBO1.Unbind();
 	EBO1.Unbind();
 
 	//Ativação do shader program
 	shaderProgram.Activate();
+
+	// Variables that help the rotation of the pyramid
+	float rotation = 0.0f;
+	double prevTime = glfwGetTime();
 
 	//Ativação do teste de profundidade
 	glEnable(GL_DEPTH_TEST);
@@ -128,13 +150,29 @@ int main(void) {
 		//Ativação do shader program
 		shaderProgram.Activate();
 
+		// Simple timer
+		double crntTime = glfwGetTime();
+		if (crntTime - prevTime >= 1 / 60)
+		{
+			rotation += 0.1f;
+			prevTime = crntTime;
+		}
+
+		//Inicialização das matrizes model, view e projection
 		glm::mat4 model = glm::mat4(1.0f);
 		glm::mat4 view = glm::mat4(1.0f);
 		glm::mat4 proj = glm::mat4(1.0f);
 
+		//Rotaciona o modelo
+		model = glm::rotate(model, glm::radians(rotation), glm::vec3(0.0f, 1.0f, 0.0f));
+
+		//Posiciona a câmera
 		view = glm::translate(view, glm::vec3(0.0f, -0.5f, -2.0f));
+
+		//Adiciona a perspectiva
 		proj = glm::perspective(glm::radians(45.0f), (float)width / height, 0.1f, 100.0f);
 
+		//Vincula as matrizes aos seus respectivos uniforms
 		int modelLoc = glGetUniformLocation(shaderProgram.ID, "model");
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		int viewLoc = glGetUniformLocation(shaderProgram.ID, "view");
@@ -159,10 +197,12 @@ int main(void) {
 
 	#pragma region Destruições
 
+	//Deleta o VAO, VBO e EBO
 	VAO1.Delete();
 	VBO1.Delete();
 	EBO1.Delete();
 
+	//Deleta o shader program
 	shaderProgram.Delete();
 
 	//Destrói a janela e encerra o GLFW
