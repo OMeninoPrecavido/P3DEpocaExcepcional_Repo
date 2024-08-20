@@ -5,6 +5,7 @@ out vec4 FragColor;
 
 //Inputs vindos do vertex shader
 in vec3 Normal;
+in vec3 Color;
 
 void main()
 {
@@ -17,8 +18,11 @@ void main()
 	//Normal do vértice
 	vec3 normal = normalize(Normal);
 
+	//Cor do vértice
+	vec3 color = Color;
+
 	//Produto escalar entre a normal e a direção da luz
 	float diffuse = max(dot(normal, lightDirection), 0.0f);
 
-	FragColor = vec4(0.8f, 0.3f, 0.02f, 1.0f) * (ambient + diffuse);
+	FragColor = vec4(color, 1.0f) * (ambient + diffuse);
 }

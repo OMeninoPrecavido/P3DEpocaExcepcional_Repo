@@ -1,9 +1,9 @@
 ﻿  Origem.cpp
 MSVCRT.lib(initializers.obj) : warning LNK4098: defaultlib 'libcmt.lib' conflita com uso de outras bibliotecas; use /NODEFAULTLIB:library
   Gerando código
-  1 of 215 functions ( 0.5%) were compiled, the rest were copied from previous compilation.
+  0 of 215 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     0 functions had inline decision re-evaluated but remain unchanged
   Finalizada a geração de código
-glew32s.lib(glew.obj) : warning LNK4099: PDB 'vc120.pdb' não foi encontrado 'glew32s.lib(glew.obj)' ou no 'C:\Users\andre\OneDrive\Documents\RepositoriosFaculdade\P3DEpocaExcecional\P3DEpocaExcepcional_Repo\x64\Release\vc120.pdb'; vinculando objeto quando quando sem nenhuma informação de depuração
+glew32s.lib(glew.obj) : warning LNK4099: PDB '' não foi encontrado 'glew32s.lib(glew.obj)' ou no ''; vinculando objeto quando quando sem nenhuma informação de depuração
   P3DEpocaExcecional.vcxproj -> C:\Users\andre\OneDrive\Documents\RepositoriosFaculdade\P3DEpocaExcecional\P3DEpocaExcepcional_Repo\x64\Release\P3DEpocaExcecional.exe

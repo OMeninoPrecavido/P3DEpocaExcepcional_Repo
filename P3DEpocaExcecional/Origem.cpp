@@ -17,10 +17,100 @@
 #pragma comment(lib, "glfw3.lib")
 #pragma comment(lib, "opengl32.lib")
 
-//Vértices do triângulo
+//Vértices do bloco de chão
+GLfloat floorBlockVertices[] =
+{ //     COORDINATES     /        NORMALS        /        COLORS         //
+	-0.5f, 0.0f,  0.5f,     0.0f, -1.0f,  0.0f,     0.2f, 0.2f, 0.6f, // Bottom side
+	-0.5f, 0.0f, -0.5f,     0.0f, -1.0f,  0.0f,     0.2f, 0.2f, 0.6f, // Bottom side
+	 0.5f, 0.0f, -0.5f,     0.0f, -1.0f,  0.0f,     0.2f, 0.2f, 0.6f, // Bottom side
+	 0.5f, 0.0f,  0.5f,     0.0f, -1.0f,  0.0f,     0.2f, 0.2f, 0.6f, // Bottom side
+
+	-0.5f, 0.0f,  0.5f,     -1.0f, 0.0f,  0.0f,     0.2f, 0.2f, 0.6f, // Left Side
+	-0.5f, 0.0f, -0.5f,     -1.0f, 0.0f,  0.0f,     0.2f, 0.2f, 0.6f, // Left Side
+	-0.5f, 1.0f,  0.5f,     -1.0f, 0.0f,  0.0f,     0.2f, 0.2f, 0.6f, // Left Side
+	-0.5f, 1.0f, -0.5f,     -1.0f, 0.0f,  0.0f,     0.2f, 0.2f, 0.6f, // Left Side
+
+	 0.5f, 0.0f,  0.5f,      1.0f, 0.0f,  0.0f,     0.2f, 0.2f, 0.6f, // Right Side
+	 0.5f, 0.0f, -0.5f,      1.0f, 0.0f,  0.0f,     0.2f, 0.2f, 0.6f, // Right Side
+	 0.5f, 1.0f,  0.5f,      1.0f, 0.0f,  0.0f,     0.2f, 0.2f, 0.6f, // Right Side
+	 0.5f, 1.0f, -0.5f,      1.0f, 0.0f,  0.0f,     0.2f, 0.2f, 0.6f, // Right Side
+
+	-0.5f, 0.0f,  0.5f,      0.0f, 0.0f,  1.0f,     0.2f, 0.2f, 0.6f, // Front Side
+	 0.5f, 0.0f,  0.5f,      0.0f, 0.0f,  1.0f,     0.2f, 0.2f, 0.6f, // Front Side
+	-0.5f, 1.0f,  0.5f,      0.0f, 0.0f,  1.0f,     0.2f, 0.2f, 0.6f, // Front Side
+	 0.5f, 1.0f,  0.5f,      0.0f, 0.0f,  1.0f,     0.2f, 0.2f, 0.6f, // Front Side
+
+	-0.5f, 0.0f, -0.5f,      0.0f, 0.0f, -1.0f,     0.2f, 0.2f, 0.6f, // Back Side
+	 0.5f, 0.0f, -0.5f,      0.0f, 0.0f, -1.0f,     0.2f, 0.2f, 0.6f, // Back Side
+	-0.5f, 1.0f, -0.5f,      0.0f, 0.0f, -1.0f,     0.2f, 0.2f, 0.6f, // Back Side
+	 0.5f, 1.0f, -0.5f,      0.0f, 0.0f, -1.0f,     0.2f, 0.2f, 0.6f, // Back Side
+
+	-0.5f, 1.0f,  0.5f,      0.0f, 1.0f,  0.0f,     0.2f, 0.2f, 0.6f, // Top side
+	-0.5f, 1.0f, -0.5f,      0.0f, 1.0f,  0.0f,     0.2f, 0.2f, 0.6f, // Top side
+	 0.5f, 1.0f, -0.5f,      0.0f, 1.0f,  0.0f,     0.2f, 0.2f, 0.6f, // Top side
+	 0.5f, 1.0f,  0.5f,      0.0f, 1.0f,  0.0f,     0.2f, 0.2f, 0.6f // Top side
+};
+
+//Vértices do bloco de parede
+GLfloat wallBlockVertices[] =
+{ //     COORDINATES     /        NORMALS       //
+	-0.5f, 0.0f,  0.5f,     0.0f, -1.0f,  0.0f,     0.6f, 0.2f, 0.2f, // Bottom side
+	-0.5f, 0.0f, -0.5f,     0.0f, -1.0f,  0.0f,     0.6f, 0.2f, 0.2f, // Bottom side
+	 0.5f, 0.0f, -0.5f,     0.0f, -1.0f,  0.0f,     0.6f, 0.2f, 0.2f, // Bottom side
+	 0.5f, 0.0f,  0.5f,     0.0f, -1.0f,  0.0f,     0.6f, 0.2f, 0.2f, // Bottom side
+
+	-0.5f, 0.0f,  0.5f,     -1.0f, 0.0f,  0.0f,     0.6f, 0.2f, 0.2f, // Left Side
+	-0.5f, 0.0f, -0.5f,     -1.0f, 0.0f,  0.0f,     0.6f, 0.2f, 0.2f, // Left Side
+	-0.5f, 2.0f,  0.5f,     -1.0f, 0.0f,  0.0f,     0.6f, 0.2f, 0.2f, // Left Side
+	-0.5f, 2.0f, -0.5f,     -1.0f, 0.0f,  0.0f,     0.6f, 0.2f, 0.2f, // Left Side
+
+	 0.5f, 0.0f,  0.5f,      1.0f, 0.0f,  0.0f,     0.6f, 0.2f, 0.2f, // Right Side
+	 0.5f, 0.0f, -0.5f,      1.0f, 0.0f,  0.0f,     0.6f, 0.2f, 0.2f, // Right Side
+	 0.5f, 2.0f,  0.5f,      1.0f, 0.0f,  0.0f,     0.6f, 0.2f, 0.2f, // Right Side
+	 0.5f, 2.0f, -0.5f,      1.0f, 0.0f,  0.0f,     0.6f, 0.2f, 0.2f, // Right Side
+
+	-0.5f, 0.0f,  0.5f,      0.0f, 0.0f,  1.0f,     0.6f, 0.2f, 0.2f, // Front Side
+	 0.5f, 0.0f,  0.5f,      0.0f, 0.0f,  1.0f,     0.6f, 0.2f, 0.2f, // Front Side
+	-0.5f, 2.0f,  0.5f,      0.0f, 0.0f,  1.0f,     0.6f, 0.2f, 0.2f, // Front Side
+	 0.5f, 2.0f,  0.5f,      0.0f, 0.0f,  1.0f,		0.6f, 0.2f, 0.2f, // Front Side
+
+	-0.5f, 0.0f, -0.5f,      0.0f, 0.0f, -1.0f,     0.6f, 0.2f, 0.2f, // Back Side
+	 0.5f, 0.0f, -0.5f,      0.0f, 0.0f, -1.0f,     0.6f, 0.2f, 0.2f, // Back Side
+	-0.5f, 2.0f, -0.5f,      0.0f, 0.0f, -1.0f,     0.6f, 0.2f, 0.2f, // Back Side
+	 0.5f, 2.0f, -0.5f,      0.0f, 0.0f, -1.0f,     0.6f, 0.2f, 0.2f, // Back Side
+
+	-0.5f, 2.0f,  0.5f,      0.0f, 1.0f,  0.0f,     0.6f, 0.2f, 0.2f, // Top side
+	-0.5f, 2.0f, -0.5f,      0.0f, 1.0f,  0.0f,     0.6f, 0.2f, 0.2f, // Top side
+	 0.5f, 2.0f, -0.5f,      0.0f, 1.0f,  0.0f,     0.6f, 0.2f, 0.2f, // Top side
+	 0.5f, 2.0f,  0.5f,      0.0f, 1.0f,  0.0f,     0.6f, 0.2f, 0.2f // Top side
+};
+
+//Índices dos vértices dos blocos de chão/parede
+GLuint blockIndices[] =
+{
+	0, 1, 2, // Bottom side
+	0, 2, 3, // Bottom side
+
+	4, 6, 5, // Left side
+	5, 6, 7, // Left side
+
+	8, 9, 10, // Right side
+	9, 10, 11, // Right side
+
+	12, 13, 14, // Front side
+	13, 14, 15, // Front side
+
+	16, 17, 18, // Back side
+	17, 18, 19, // Back side
+
+	20, 21, 22, // Top side
+	20, 22, 23 // Top side
+};
+
+//Vértices da pirâmide
 GLfloat vertices[] =
 { //     COORDINATES     /        NORMALS       //
-	-0.5f, 0.0f,  0.5f,     0.0f, -1.0f, 0.0f, // Bottom side
+	-0.5f, 1.0f,  0.5f,     0.0f, -1.0f, 0.0f, // Bottom side
 	-0.5f, 0.0f, -0.5f,     0.0f, -1.0f, 0.0f, // Bottom side
 	 0.5f, 0.0f, -0.5f,     0.0f, -1.0f, 0.0f, // Bottom side
 	 0.5f, 0.0f,  0.5f,     0.0f, -1.0f, 0.0f, // Bottom side
@@ -110,14 +200,15 @@ int main(void) {
 	VAO1.Bind();
 
 	//Criação do VBO
-	VBO VBO1(vertices, sizeof(vertices));
+	VBO VBO1(floorBlockVertices, sizeof(floorBlockVertices));
 
 	//Criação do EBO
-	EBO EBO1(indices, sizeof(indices));
+	EBO EBO1(blockIndices, sizeof(blockIndices));
 
 	//Especificação dos atributos a ser interpretados pelo VAO
-	VAO1.LinkAttrib(VBO1, 0, 3, GL_FLOAT, 6 * sizeof(float), (void*)0);
-	VAO1.LinkAttrib(VBO1, 1, 3, GL_FLOAT, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+	VAO1.LinkAttrib(VBO1, 0, 3, GL_FLOAT, 9 * sizeof(float), (void*)0);
+	VAO1.LinkAttrib(VBO1, 1, 3, GL_FLOAT, 9 * sizeof(float), (void*)(3 * sizeof(float)));
+	VAO1.LinkAttrib(VBO1, 2, 3, GL_FLOAT, 9 * sizeof(float), (void*)(6 * sizeof(float)));
 
 	//Unbinding do VBO, VAO e EBO
 	VAO1.Unbind();
@@ -167,7 +258,7 @@ int main(void) {
 		model = glm::rotate(model, glm::radians(rotation), glm::vec3(0.0f, 1.0f, 0.0f));
 
 		//Posiciona a câmera
-		view = glm::translate(view, glm::vec3(0.0f, -0.5f, -2.0f));
+		view = glm::translate(view, glm::vec3(0.0f, -0.5f, -4.0f));
 
 		//Adiciona a perspectiva
 		proj = glm::perspective(glm::radians(45.0f), (float)width / height, 0.1f, 100.0f);
@@ -184,7 +275,7 @@ int main(void) {
 		VAO1.Bind();
 
 		//Desenha os vértices
-		glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(int), GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, sizeof(blockIndices) / sizeof(int), GL_UNSIGNED_INT, 0);
 
 		//Troca as imagens do BACK BUFFER com as do FRONT BUFFER
 		glfwSwapBuffers(window);
