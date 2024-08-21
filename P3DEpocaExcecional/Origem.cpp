@@ -18,71 +18,71 @@
 #pragma comment(lib, "opengl32.lib")
 
 //Vértices do bloco de chão
-GLfloat floorBlockVertices[] =
-{ //     COORDINATES     /        NORMALS        /        COLORS         //
-	-0.5f, 0.0f,  0.5f,     0.0f, -1.0f,  0.0f,     0.2f, 0.2f, 0.6f, // Bottom side
-	-0.5f, 0.0f, -0.5f,     0.0f, -1.0f,  0.0f,     0.2f, 0.2f, 0.6f, // Bottom side
-	 0.5f, 0.0f, -0.5f,     0.0f, -1.0f,  0.0f,     0.2f, 0.2f, 0.6f, // Bottom side
-	 0.5f, 0.0f,  0.5f,     0.0f, -1.0f,  0.0f,     0.2f, 0.2f, 0.6f, // Bottom side
+Vertex floorBlockVertices[] =
+{ //			COORDINATES			     /			  NORMALS		     /		    	COLORS		    //
+	Vertex{glm::vec3(-0.5f, 0.0f,  0.5f), glm::vec3( 0.0f, -1.0f,  0.0f), glm::vec3(0.2f, 0.2f, 0.6f)}, // Bottom side
+	Vertex{glm::vec3(-0.5f, 0.0f, -0.5f), glm::vec3( 0.0f, -1.0f,  0.0f), glm::vec3(0.2f, 0.2f, 0.6f)}, // Bottom side
+	Vertex{glm::vec3( 0.5f, 0.0f, -0.5f), glm::vec3( 0.0f, -1.0f,  0.0f), glm::vec3(0.2f, 0.2f, 0.6f)}, // Bottom side
+	Vertex{glm::vec3( 0.5f, 0.0f,  0.5f), glm::vec3( 0.0f, -1.0f,  0.0f), glm::vec3(0.2f, 0.2f, 0.6f)}, // Bottom side
 
-	-0.5f, 0.0f,  0.5f,     -1.0f, 0.0f,  0.0f,     0.2f, 0.2f, 0.6f, // Left Side
-	-0.5f, 0.0f, -0.5f,     -1.0f, 0.0f,  0.0f,     0.2f, 0.2f, 0.6f, // Left Side
-	-0.5f, 1.0f,  0.5f,     -1.0f, 0.0f,  0.0f,     0.2f, 0.2f, 0.6f, // Left Side
-	-0.5f, 1.0f, -0.5f,     -1.0f, 0.0f,  0.0f,     0.2f, 0.2f, 0.6f, // Left Side
+	Vertex{glm::vec3(-0.5f, 0.0f,  0.5f), glm::vec3(-1.0f,  0.0f,  0.0f), glm::vec3(0.2f, 0.2f, 0.6f)}, // Left side
+	Vertex{glm::vec3(-0.5f, 0.0f, -0.5f), glm::vec3(-1.0f,  0.0f,  0.0f), glm::vec3(0.2f, 0.2f, 0.6f)}, // Left side
+	Vertex{glm::vec3(-0.5f, 1.0f,  0.5f), glm::vec3(-1.0f,  0.0f,  0.0f), glm::vec3(0.2f, 0.2f, 0.6f)}, // Left side
+	Vertex{glm::vec3(-0.5f, 1.0f, -0.5f), glm::vec3(-1.0f,  0.0f,  0.0f), glm::vec3(0.2f, 0.2f, 0.6f)}, // Left side
 
-	 0.5f, 0.0f,  0.5f,      1.0f, 0.0f,  0.0f,     0.2f, 0.2f, 0.6f, // Right Side
-	 0.5f, 0.0f, -0.5f,      1.0f, 0.0f,  0.0f,     0.2f, 0.2f, 0.6f, // Right Side
-	 0.5f, 1.0f,  0.5f,      1.0f, 0.0f,  0.0f,     0.2f, 0.2f, 0.6f, // Right Side
-	 0.5f, 1.0f, -0.5f,      1.0f, 0.0f,  0.0f,     0.2f, 0.2f, 0.6f, // Right Side
+	Vertex{glm::vec3( 0.5f, 0.0f,  0.5f), glm::vec3( 1.0f,  0.0f,  0.0f), glm::vec3(0.2f, 0.2f, 0.6f)}, // Right side
+	Vertex{glm::vec3( 0.5f, 0.0f, -0.5f), glm::vec3( 1.0f,  0.0f,  0.0f), glm::vec3(0.2f, 0.2f, 0.6f)}, // Right side
+	Vertex{glm::vec3( 0.5f, 1.0f,  0.5f), glm::vec3( 1.0f,  0.0f,  0.0f), glm::vec3(0.2f, 0.2f, 0.6f)}, // Right side
+	Vertex{glm::vec3( 0.5f, 1.0f, -0.5f), glm::vec3( 1.0f,  0.0f,  0.0f), glm::vec3(0.2f, 0.2f, 0.6f)}, // Right side
 
-	-0.5f, 0.0f,  0.5f,      0.0f, 0.0f,  1.0f,     0.2f, 0.2f, 0.6f, // Front Side
-	 0.5f, 0.0f,  0.5f,      0.0f, 0.0f,  1.0f,     0.2f, 0.2f, 0.6f, // Front Side
-	-0.5f, 1.0f,  0.5f,      0.0f, 0.0f,  1.0f,     0.2f, 0.2f, 0.6f, // Front Side
-	 0.5f, 1.0f,  0.5f,      0.0f, 0.0f,  1.0f,     0.2f, 0.2f, 0.6f, // Front Side
+	Vertex{glm::vec3(-0.5f, 0.0f,  0.5f), glm::vec3( 0.0f,  0.0f,  1.0f), glm::vec3(0.2f, 0.2f, 0.6f)}, // Front side
+	Vertex{glm::vec3( 0.5f, 0.0f,  0.5f), glm::vec3( 0.0f,  0.0f,  1.0f), glm::vec3(0.2f, 0.2f, 0.6f)}, // Front side
+	Vertex{glm::vec3(-0.5f, 1.0f,  0.5f), glm::vec3( 0.0f,  0.0f,  1.0f), glm::vec3(0.2f, 0.2f, 0.6f)}, // Front side
+	Vertex{glm::vec3( 0.5f, 1.0f,  0.5f), glm::vec3( 0.0f,  0.0f,  1.0f), glm::vec3(0.2f, 0.2f, 0.6f)}, // Front side
 
-	-0.5f, 0.0f, -0.5f,      0.0f, 0.0f, -1.0f,     0.2f, 0.2f, 0.6f, // Back Side
-	 0.5f, 0.0f, -0.5f,      0.0f, 0.0f, -1.0f,     0.2f, 0.2f, 0.6f, // Back Side
-	-0.5f, 1.0f, -0.5f,      0.0f, 0.0f, -1.0f,     0.2f, 0.2f, 0.6f, // Back Side
-	 0.5f, 1.0f, -0.5f,      0.0f, 0.0f, -1.0f,     0.2f, 0.2f, 0.6f, // Back Side
+	Vertex{glm::vec3(-0.5f, 0.0f, -0.5f), glm::vec3( 0.0f,  0.0f, -1.0f), glm::vec3(0.2f, 0.2f, 0.6f)}, // Back side
+	Vertex{glm::vec3( 0.5f, 0.0f, -0.5f), glm::vec3( 0.0f,  0.0f, -1.0f), glm::vec3(0.2f, 0.2f, 0.6f)}, // Back side
+	Vertex{glm::vec3(-0.5f, 1.0f, -0.5f), glm::vec3( 0.0f,  0.0f, -1.0f), glm::vec3(0.2f, 0.2f, 0.6f)}, // Back side
+	Vertex{glm::vec3( 0.5f, 1.0f, -0.5f), glm::vec3( 0.0f,  0.0f, -1.0f), glm::vec3(0.2f, 0.2f, 0.6f)}, // Back side
 
-	-0.5f, 1.0f,  0.5f,      0.0f, 1.0f,  0.0f,     0.2f, 0.2f, 0.6f, // Top side
-	-0.5f, 1.0f, -0.5f,      0.0f, 1.0f,  0.0f,     0.2f, 0.2f, 0.6f, // Top side
-	 0.5f, 1.0f, -0.5f,      0.0f, 1.0f,  0.0f,     0.2f, 0.2f, 0.6f, // Top side
-	 0.5f, 1.0f,  0.5f,      0.0f, 1.0f,  0.0f,     0.2f, 0.2f, 0.6f // Top side
+	Vertex{glm::vec3(-0.5f, 1.0f,  0.5f), glm::vec3( 0.0f, 1.0f,  0.0f), glm::vec3(0.2f, 0.2f, 0.6f)}, // Top side
+	Vertex{glm::vec3(-0.5f, 1.0f, -0.5f), glm::vec3( 0.0f, 1.0f,  0.0f), glm::vec3(0.2f, 0.2f, 0.6f)}, // Top side
+	Vertex{glm::vec3( 0.5f, 1.0f, -0.5f), glm::vec3( 0.0f, 1.0f,  0.0f), glm::vec3(0.2f, 0.2f, 0.6f)}, // Top side
+	Vertex{glm::vec3( 0.5f, 1.0f,  0.5f), glm::vec3( 0.0f, 1.0f,  0.0f), glm::vec3(0.2f, 0.2f, 0.6f)}  // Top side
 };
 
 //Vértices do bloco de parede
-GLfloat wallBlockVertices[] =
-{ //     COORDINATES     /        NORMALS       //
-	-0.5f, 0.0f,  0.5f,     0.0f, -1.0f,  0.0f,     0.6f, 0.2f, 0.2f, // Bottom side
-	-0.5f, 0.0f, -0.5f,     0.0f, -1.0f,  0.0f,     0.6f, 0.2f, 0.2f, // Bottom side
-	 0.5f, 0.0f, -0.5f,     0.0f, -1.0f,  0.0f,     0.6f, 0.2f, 0.2f, // Bottom side
-	 0.5f, 0.0f,  0.5f,     0.0f, -1.0f,  0.0f,     0.6f, 0.2f, 0.2f, // Bottom side
+Vertex wallBlockVertices[] =
+{ //			COORDINATES			     /			  NORMALS		     /		    	COLORS		    //
+	Vertex{glm::vec3(-0.5f, 0.0f,  0.5f), glm::vec3( 0.0f, -1.0f,  0.0f), glm::vec3(0.6f, 0.2f, 0.2f)}, // Bottom side
+	Vertex{glm::vec3(-0.5f, 0.0f, -0.5f), glm::vec3( 0.0f, -1.0f,  0.0f), glm::vec3(0.6f, 0.2f, 0.2f)}, // Bottom side
+	Vertex{glm::vec3( 0.5f, 0.0f, -0.5f), glm::vec3( 0.0f, -1.0f,  0.0f), glm::vec3(0.6f, 0.2f, 0.2f)}, // Bottom side
+	Vertex{glm::vec3( 0.5f, 0.0f,  0.5f), glm::vec3( 0.0f, -1.0f,  0.0f), glm::vec3(0.6f, 0.2f, 0.2f)}, // Bottom side
 
-	-0.5f, 0.0f,  0.5f,     -1.0f, 0.0f,  0.0f,     0.6f, 0.2f, 0.2f, // Left Side
-	-0.5f, 0.0f, -0.5f,     -1.0f, 0.0f,  0.0f,     0.6f, 0.2f, 0.2f, // Left Side
-	-0.5f, 2.0f,  0.5f,     -1.0f, 0.0f,  0.0f,     0.6f, 0.2f, 0.2f, // Left Side
-	-0.5f, 2.0f, -0.5f,     -1.0f, 0.0f,  0.0f,     0.6f, 0.2f, 0.2f, // Left Side
+	Vertex{glm::vec3(-0.5f, 0.0f,  0.5f), glm::vec3(-1.0f,  0.0f,  0.0f), glm::vec3(0.6f, 0.2f, 0.2f)}, // Left side
+	Vertex{glm::vec3(-0.5f, 0.0f, -0.5f), glm::vec3(-1.0f,  0.0f,  0.0f), glm::vec3(0.6f, 0.2f, 0.2f)}, // Left side
+	Vertex{glm::vec3(-0.5f, 2.0f,  0.5f), glm::vec3(-1.0f,  0.0f,  0.0f), glm::vec3(0.6f, 0.2f, 0.2f)}, // Left side
+	Vertex{glm::vec3(-0.5f, 2.0f, -0.5f), glm::vec3(-1.0f,  0.0f,  0.0f), glm::vec3(0.6f, 0.2f, 0.2f)}, // Left side
 
-	 0.5f, 0.0f,  0.5f,      1.0f, 0.0f,  0.0f,     0.6f, 0.2f, 0.2f, // Right Side
-	 0.5f, 0.0f, -0.5f,      1.0f, 0.0f,  0.0f,     0.6f, 0.2f, 0.2f, // Right Side
-	 0.5f, 2.0f,  0.5f,      1.0f, 0.0f,  0.0f,     0.6f, 0.2f, 0.2f, // Right Side
-	 0.5f, 2.0f, -0.5f,      1.0f, 0.0f,  0.0f,     0.6f, 0.2f, 0.2f, // Right Side
+	Vertex{glm::vec3( 0.5f, 0.0f,  0.5f), glm::vec3( 1.0f,  0.0f,  0.0f), glm::vec3(0.6f, 0.2f, 0.2f)}, // Right side
+	Vertex{glm::vec3( 0.5f, 0.0f, -0.5f), glm::vec3( 1.0f,  0.0f,  0.0f), glm::vec3(0.6f, 0.2f, 0.2f)}, // Right side
+	Vertex{glm::vec3( 0.5f, 2.0f,  0.5f), glm::vec3( 1.0f,  0.0f,  0.0f), glm::vec3(0.6f, 0.2f, 0.2f)}, // Right side
+	Vertex{glm::vec3( 0.5f, 2.0f, -0.5f), glm::vec3( 1.0f,  0.0f,  0.0f), glm::vec3(0.6f, 0.2f, 0.2f)}, // Right side
 
-	-0.5f, 0.0f,  0.5f,      0.0f, 0.0f,  1.0f,     0.6f, 0.2f, 0.2f, // Front Side
-	 0.5f, 0.0f,  0.5f,      0.0f, 0.0f,  1.0f,     0.6f, 0.2f, 0.2f, // Front Side
-	-0.5f, 2.0f,  0.5f,      0.0f, 0.0f,  1.0f,     0.6f, 0.2f, 0.2f, // Front Side
-	 0.5f, 2.0f,  0.5f,      0.0f, 0.0f,  1.0f,		0.6f, 0.2f, 0.2f, // Front Side
+	Vertex{glm::vec3(-0.5f, 0.0f,  0.5f), glm::vec3( 0.0f,  0.0f,  1.0f), glm::vec3(0.6f, 0.2f, 0.2f)}, // Front side
+	Vertex{glm::vec3( 0.5f, 0.0f,  0.5f), glm::vec3( 0.0f,  0.0f,  1.0f), glm::vec3(0.6f, 0.2f, 0.2f)}, // Front side
+	Vertex{glm::vec3(-0.5f, 2.0f,  0.5f), glm::vec3( 0.0f,  0.0f,  1.0f), glm::vec3(0.6f, 0.2f, 0.2f)}, // Front side
+	Vertex{glm::vec3( 0.5f, 2.0f,  0.5f), glm::vec3( 0.0f,  0.0f,  1.0f), glm::vec3(0.6f, 0.2f, 0.2f)}, // Front side
 
-	-0.5f, 0.0f, -0.5f,      0.0f, 0.0f, -1.0f,     0.6f, 0.2f, 0.2f, // Back Side
-	 0.5f, 0.0f, -0.5f,      0.0f, 0.0f, -1.0f,     0.6f, 0.2f, 0.2f, // Back Side
-	-0.5f, 2.0f, -0.5f,      0.0f, 0.0f, -1.0f,     0.6f, 0.2f, 0.2f, // Back Side
-	 0.5f, 2.0f, -0.5f,      0.0f, 0.0f, -1.0f,     0.6f, 0.2f, 0.2f, // Back Side
+	Vertex{glm::vec3(-0.5f, 0.0f, -0.5f), glm::vec3( 0.0f,  0.0f, -1.0f), glm::vec3(0.6f, 0.2f, 0.2f)}, // Back side
+	Vertex{glm::vec3( 0.5f, 0.0f, -0.5f), glm::vec3( 0.0f,  0.0f, -1.0f), glm::vec3(0.6f, 0.2f, 0.2f)}, // Back side
+	Vertex{glm::vec3(-0.5f, 2.0f, -0.5f), glm::vec3( 0.0f,  0.0f, -1.0f), glm::vec3(0.6f, 0.2f, 0.2f)}, // Back side
+	Vertex{glm::vec3( 0.5f, 2.0f, -0.5f), glm::vec3( 0.0f,  0.0f, -1.0f), glm::vec3(0.6f, 0.2f, 0.2f)}, // Back side
 
-	-0.5f, 2.0f,  0.5f,      0.0f, 1.0f,  0.0f,     0.6f, 0.2f, 0.2f, // Top side
-	-0.5f, 2.0f, -0.5f,      0.0f, 1.0f,  0.0f,     0.6f, 0.2f, 0.2f, // Top side
-	 0.5f, 2.0f, -0.5f,      0.0f, 1.0f,  0.0f,     0.6f, 0.2f, 0.2f, // Top side
-	 0.5f, 2.0f,  0.5f,      0.0f, 1.0f,  0.0f,     0.6f, 0.2f, 0.2f // Top side
+	Vertex{glm::vec3(-0.5f, 2.0f,  0.5f), glm::vec3( 0.0f,  1.0f,  0.0f), glm::vec3(0.6f, 0.2f, 0.2f)}, // Top side
+	Vertex{glm::vec3(-0.5f, 2.0f, -0.5f), glm::vec3( 0.0f,  1.0f,  0.0f), glm::vec3(0.6f, 0.2f, 0.2f)}, // Top side
+	Vertex{glm::vec3( 0.5f, 2.0f, -0.5f), glm::vec3( 0.0f,  1.0f,  0.0f), glm::vec3(0.6f, 0.2f, 0.2f)}, // Top side
+	Vertex{glm::vec3( 0.5f, 2.0f,  0.5f), glm::vec3( 0.0f,  1.0f,  0.0f), glm::vec3(0.6f, 0.2f, 0.2f)}  // Top side
 };
 
 //Índices dos vértices dos blocos de chão/parede
@@ -206,9 +206,9 @@ int main(void) {
 	EBO EBO1(blockIndices, sizeof(blockIndices));
 
 	//Especificação dos atributos a ser interpretados pelo VAO
-	VAO1.LinkAttrib(VBO1, 0, 3, GL_FLOAT, 9 * sizeof(float), (void*)0);
-	VAO1.LinkAttrib(VBO1, 1, 3, GL_FLOAT, 9 * sizeof(float), (void*)(3 * sizeof(float)));
-	VAO1.LinkAttrib(VBO1, 2, 3, GL_FLOAT, 9 * sizeof(float), (void*)(6 * sizeof(float)));
+	VAO1.LinkAttrib(VBO1, 0, 3, GL_FLOAT, sizeof(Vertex), (void*)0);
+	VAO1.LinkAttrib(VBO1, 1, 3, GL_FLOAT, sizeof(Vertex), (void*)(3 * sizeof(float)));
+	VAO1.LinkAttrib(VBO1, 2, 3, GL_FLOAT, sizeof(Vertex), (void*)(6 * sizeof(float)));
 
 	//Unbinding do VBO, VAO e EBO
 	VAO1.Unbind();

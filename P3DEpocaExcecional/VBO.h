@@ -4,9 +4,25 @@
 
 #include <GL\glew.h>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 #pragma comment(lib, "glew32s.lib")
 #pragma comment(lib, "glfw3.lib")
 #pragma comment(lib, "opengl32.lib")
+
+struct Vertex
+{
+	glm::vec3 position;
+	glm::vec3 normal;
+	glm::vec3 color;
+
+	Vertex Move(glm::vec3 moveVec) {
+		glm::vec3 newPos = position + moveVec;
+		return Vertex{ glm::vec3(newPos), glm::vec3(normal), glm::vec3(color) };
+	}
+};
 
 class VBO
 {
@@ -16,7 +32,7 @@ class VBO
 		GLuint ID;
 
 		//Construtor -> Cria o VBO e vincula ele aos vértices fornecidos
-		VBO(GLfloat* vertices, GLsizeiptr size);
+		VBO(Vertex* vertices, GLsizeiptr numberOfVertices);
 
 		//Dá bind ao VBO
 		void Bind();

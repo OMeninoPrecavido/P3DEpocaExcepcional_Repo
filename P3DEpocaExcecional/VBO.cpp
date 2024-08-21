@@ -1,11 +1,11 @@
 #include"VBO.h"
 
 //Construtor -> Cria o VBO e vincula ele aos vértices fornecidos
-VBO::VBO(GLfloat* vertices, GLsizeiptr size)
+VBO::VBO(Vertex* vertices, GLsizeiptr numberOfVertices)
 {
 	glGenBuffers(1, &ID);
 	glBindBuffer(GL_ARRAY_BUFFER, ID);
-	glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * numberOfVertices, vertices, GL_STATIC_DRAW);
 }
 
 //Dá bind ao VBO
