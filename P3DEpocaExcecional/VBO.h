@@ -8,6 +8,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include <vector>
+
 #pragma comment(lib, "glew32s.lib")
 #pragma comment(lib, "glfw3.lib")
 #pragma comment(lib, "opengl32.lib")
@@ -32,7 +34,7 @@ class VBO
 		GLuint ID;
 
 		//Construtor -> Cria o VBO e vincula ele aos vértices fornecidos
-		VBO(Vertex* vertices, GLsizeiptr numberOfVertices);
+		VBO(std::vector<Vertex>& vertices);
 
 		//Dá bind ao VBO
 		void Bind();

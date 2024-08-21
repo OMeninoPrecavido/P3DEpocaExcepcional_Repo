@@ -3,6 +3,7 @@
 #define GLEW_STATIC
 
 #include <GL\glew.h>
+#include <vector>
 
 class EBO
 {
@@ -12,7 +13,7 @@ class EBO
 		GLuint ID;
 
 		//Construtor -> Gera o EBO e vincula ele aos índices
-		EBO(GLuint* indices, GLsizeiptr size);
+		EBO(std::vector<GLuint>& indices);
 
 		//Dá bind ao EBO
 		void Bind();

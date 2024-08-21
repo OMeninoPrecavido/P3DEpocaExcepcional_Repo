@@ -3,6 +3,7 @@
 #include <GL\glew.h>
 #include <GLFW\glfw3.h>
 #include <iostream>
+#include <vector>
 
 #include"shaderClass.h"
 #include"VAO.h"
@@ -18,7 +19,7 @@
 #pragma comment(lib, "opengl32.lib")
 
 //Vértices do bloco de chão
-Vertex floorBlockVertices[] =
+std:: vector<Vertex> floorBlockVertices =
 { //			COORDINATES			     /			  NORMALS		     /		    	COLORS		    //
 	Vertex{glm::vec3(-0.5f, 0.0f,  0.5f), glm::vec3( 0.0f, -1.0f,  0.0f), glm::vec3(0.2f, 0.2f, 0.6f)}, // Bottom side
 	Vertex{glm::vec3(-0.5f, 0.0f, -0.5f), glm::vec3( 0.0f, -1.0f,  0.0f), glm::vec3(0.2f, 0.2f, 0.6f)}, // Bottom side
@@ -86,7 +87,7 @@ Vertex wallBlockVertices[] =
 };
 
 //Índices dos vértices dos blocos de chão/parede
-GLuint blockIndices[] =
+std::vector<GLuint> blockIndices =
 {
 	0, 1, 2, // Bottom side
 	0, 2, 3, // Bottom side
@@ -200,10 +201,10 @@ int main(void) {
 	VAO1.Bind();
 
 	//Criação do VBO
-	VBO VBO1(floorBlockVertices, sizeof(floorBlockVertices));
+	VBO VBO1(floorBlockVertices);
 
 	//Criação do EBO
-	EBO EBO1(blockIndices, sizeof(blockIndices));
+	EBO EBO1(blockIndices);
 
 	//Especificação dos atributos a ser interpretados pelo VAO
 	VAO1.LinkAttrib(VBO1, 0, 3, GL_FLOAT, sizeof(Vertex), (void*)0);
@@ -275,7 +276,7 @@ int main(void) {
 		VAO1.Bind();
 
 		//Desenha os vértices
-		glDrawElements(GL_TRIANGLES, sizeof(blockIndices) / sizeof(int), GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, blockIndices.size(), GL_UNSIGNED_INT, 0);
 
 		//Troca as imagens do BACK BUFFER com as do FRONT BUFFER
 		glfwSwapBuffers(window);
