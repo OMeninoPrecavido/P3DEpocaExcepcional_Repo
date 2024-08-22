@@ -4,6 +4,8 @@
 #include <GLFW\glfw3.h>
 #include <iostream>
 #include <vector>
+#include <fstream>
+#include <string>
 
 #include"shaderClass.h"
 #include"VAO.h"
@@ -19,7 +21,7 @@
 #pragma comment(lib, "opengl32.lib")
 
 //Vértices do bloco de chão
-std:: vector<Vertex> floorBlockVertices =
+std::vector<Vertex> floorBlockVertices =
 { //			COORDINATES			     /			  NORMALS		     /		    	COLORS		    //
 	Vertex{glm::vec3(-0.5f, 0.0f,  0.5f), glm::vec3( 0.0f, -1.0f,  0.0f), glm::vec3(0.2f, 0.2f, 0.6f)}, // Bottom side
 	Vertex{glm::vec3(-0.5f, 0.0f, -0.5f), glm::vec3( 0.0f, -1.0f,  0.0f), glm::vec3(0.2f, 0.2f, 0.6f)}, // Bottom side
@@ -53,7 +55,7 @@ std:: vector<Vertex> floorBlockVertices =
 };
 
 //Vértices do bloco de parede
-Vertex wallBlockVertices[] =
+std::vector<Vertex> wallBlockVertices =
 { //			COORDINATES			     /			  NORMALS		     /		    	COLORS		    //
 	Vertex{glm::vec3(-0.5f, 0.0f,  0.5f), glm::vec3( 0.0f, -1.0f,  0.0f), glm::vec3(0.6f, 0.2f, 0.2f)}, // Bottom side
 	Vertex{glm::vec3(-0.5f, 0.0f, -0.5f), glm::vec3( 0.0f, -1.0f,  0.0f), glm::vec3(0.6f, 0.2f, 0.2f)}, // Bottom side
@@ -193,6 +195,59 @@ int main(void) {
 
 	#pragma region Objetos do programa
 
+	std::vector<Vertex> maze;
+	std::vector<GLuint> mazeIndices;
+
+	const std::string filename = "labirinto.txt";
+	std::ifstream file(filename);
+
+	// Verifica se o arquivo foi aberto com sucesso
+	if (!file.is_open()) {
+		std::cerr << "Não foi possível abrir o arquivo: " << filename << std::endl;
+	}
+
+	char ch;
+	GLuint XVal = 0;
+	GLuint ZVal = 0;
+	while (file.get(ch)) {
+
+		std::vector<Vertex> newBlockVertices;
+		std::vector<GLuint> newBlockIndices;
+
+		if (ch == '0') {
+			for (Vertex vert : floorBlockVertices)
+			{
+				newBlockVertices.push_back(vert.Move(glm::vec3(XVal + 1.0f, 0.0f, ZVal + 1.0f)));
+			}
+			for (GLuint idx : blockIndices)
+			{
+				newBlockIndices.push_back(idx + maze.size());
+			}
+			XVal++;
+		}
+		else if (ch == '1') {
+			for (Vertex vert : wallBlockVertices)
+			{
+				newBlockVertices.push_back(vert.Move(glm::vec3(XVal + 1.0f, 0.0f, ZVal + 1.0f)));
+			}
+			for (GLuint idx : blockIndices)
+			{
+				newBlockIndices.push_back(idx + maze.size());
+			}
+			XVal++;
+		}
+		else if (ch == '\n') {
+			XVal = 0;
+			ZVal++;
+		}
+
+		maze.insert(maze.end(), newBlockVertices.begin(), newBlockVertices.end());
+		mazeIndices.insert(mazeIndices.end(), newBlockIndices.begin(), newBlockIndices.end());
+	}
+
+	// Fecha o arquivo
+	file.close();
+
 	//Criação do shader program a partir dos shaders
 	Shader shaderProgram("default.vert", "default.frag");
 
@@ -201,10 +256,10 @@ int main(void) {
 	VAO1.Bind();
 
 	//Criação do VBO
-	VBO VBO1(floorBlockVertices);
+	VBO VBO1(maze);
 
 	//Criação do EBO
-	EBO EBO1(blockIndices);
+	EBO EBO1(mazeIndices);
 
 	//Especificação dos atributos a ser interpretados pelo VAO
 	VAO1.LinkAttrib(VBO1, 0, 3, GL_FLOAT, sizeof(Vertex), (void*)0);
@@ -256,10 +311,11 @@ int main(void) {
 		glm::mat4 proj = glm::mat4(1.0f);
 
 		//Rotaciona o modelo
-		model = glm::rotate(model, glm::radians(rotation), glm::vec3(0.0f, 1.0f, 0.0f));
+		//model = glm::rotate(model, glm::radians(rotation), glm::vec3(0.0f, 1.0f, 0.0f));
 
 		//Posiciona a câmera
-		view = glm::translate(view, glm::vec3(0.0f, -0.5f, -4.0f));
+		view = glm::translate(view, glm::vec3(-15.0f, 20.0f, -30.0f));
+		view = glm::rotate(view, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
 		//Adiciona a perspectiva
 		proj = glm::perspective(glm::radians(45.0f), (float)width / height, 0.1f, 100.0f);
@@ -276,7 +332,7 @@ int main(void) {
 		VAO1.Bind();
 
 		//Desenha os vértices
-		glDrawElements(GL_TRIANGLES, blockIndices.size(), GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, mazeIndices.size(), GL_UNSIGNED_INT, 0);
 
 		//Troca as imagens do BACK BUFFER com as do FRONT BUFFER
 		glfwSwapBuffers(window);

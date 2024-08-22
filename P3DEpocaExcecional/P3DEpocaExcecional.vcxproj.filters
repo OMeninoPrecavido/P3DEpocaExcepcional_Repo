@@ -56,4 +56,9 @@
       <Filter>Arquivos de Recurso\Shaders</Filter>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="labirinto.txt">
+      <Filter>Arquivos de Origem</Filter>
+    </Text>
+  </ItemGroup>
 </Project>
