@@ -16,6 +16,9 @@
     <Filter Include="Arquivos de Recurso\Shaders">
       <UniqueIdentifier>{cd7a459a-82f2-44bc-a4fa-8fb57ba031a6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Arquivos de Recurso\Text Files">
+      <UniqueIdentifier>{60a43904-5862-47ab-b338-29c6d8b2121f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Origem.cpp">
@@ -33,6 +36,9 @@
     <ClCompile Include="EBO.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Arquivos de Origem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="VBO.h">
@@ -47,6 +53,9 @@
     <ClInclude Include="EBO.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="default.vert">
@@ -58,7 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="labirinto.txt">
-      <Filter>Arquivos de Origem</Filter>
+      <Filter>Arquivos de Recurso\Text Files</Filter>
     </Text>
   </ItemGroup>
 </Project>

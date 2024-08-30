@@ -11,6 +11,7 @@
 #include"VAO.h"
 #include"VBO.h"
 #include"EBO.h"
+#include"Camera.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -19,6 +20,8 @@
 #pragma comment(lib, "glew32s.lib")
 #pragma comment(lib, "glfw3.lib")
 #pragma comment(lib, "opengl32.lib")
+
+#pragma region Vértices e índices
 
 //Vértices do bloco de chão
 std::vector<Vertex> floorBlockVertices =
@@ -110,50 +113,16 @@ std::vector<GLuint> blockIndices =
 	20, 22, 23 // Top side
 };
 
-//Vértices da pirâmide
-GLfloat vertices[] =
-{ //     COORDINATES     /        NORMALS       //
-	-0.5f, 1.0f,  0.5f,     0.0f, -1.0f, 0.0f, // Bottom side
-	-0.5f, 0.0f, -0.5f,     0.0f, -1.0f, 0.0f, // Bottom side
-	 0.5f, 0.0f, -0.5f,     0.0f, -1.0f, 0.0f, // Bottom side
-	 0.5f, 0.0f,  0.5f,     0.0f, -1.0f, 0.0f, // Bottom side
+#pragma endregion
 
-	-0.5f, 0.0f,  0.5f,     -0.8f, 0.5f,  0.0f, // Left Side
-	-0.5f, 0.0f, -0.5f,     -0.8f, 0.5f,  0.0f, // Left Side
-	 0.0f, 0.8f,  0.0f,     -0.8f, 0.5f,  0.0f, // Left Side
+#pragma region Constantes
 
-	-0.5f, 0.0f, -0.5f,     0.0f, 0.5f, -0.8f, // Non-facing side
-	 0.5f, 0.0f, -0.5f,     0.0f, 0.5f, -0.8f, // Non-facing side
-	 0.0f, 0.8f,  0.0f,     0.0f, 0.5f, -0.8f, // Non-facing side
+const unsigned int height = 800;
+const unsigned int width = 800;
 
-	 0.5f, 0.0f, -0.5f,     0.8f, 0.5f,  0.0f, // Right side
-	 0.5f, 0.0f,  0.5f,     0.8f, 0.5f,  0.0f, // Right side
-	 0.0f, 0.8f,  0.0f,     0.8f, 0.5f,  0.0f, // Right side
-
-	 0.5f, 0.0f,  0.5f,     0.0f, 0.5f,  0.8f, // Facing side
-	-0.5f, 0.0f,  0.5f,     0.0f, 0.5f,  0.8f, // Facing side
-	 0.0f, 0.8f,  0.0f,     0.0f, 0.5f,  0.8f  // Facing side
-};
-
-//Índices usados pelo EBO
-GLuint indices[] =
-{
-	0, 1, 2, // Bottom side
-	0, 2, 3, // Bottom side
-	4, 6, 5, // Left side
-	7, 9, 8, // Non-facing side
-	10, 12, 11, // Right side
-	13, 15, 14 // Facing side
-};
+#pragma endregion
 
 int main(void) {
-
-	#pragma region Constantes
-
-	const unsigned int height = 800;
-	const unsigned int width = 800;
-
-	#pragma endregion
 
 	#pragma region Configuração GLFW
 	
@@ -195,17 +164,21 @@ int main(void) {
 
 	#pragma region Objetos do programa
 
+	//Aqui serão armazenados os vértices e índices do labirinto
 	std::vector<Vertex> maze;
 	std::vector<GLuint> mazeIndices;
 
+	//Abre o ficheiro com o layout do labirinto
 	const std::string filename = "labirinto.txt";
 	std::ifstream file(filename);
 
-	// Verifica se o arquivo foi aberto com sucesso
+	//Verifica se o arquivo foi aberto com sucesso
 	if (!file.is_open()) {
 		std::cerr << "Não foi possível abrir o arquivo: " << filename << std::endl;
 	}
 
+	//O bloco de código abaixo realiza a leitura do ficheiro e produz um conjunto de vértices e um conjunto de
+	//índices que forma um labirinto de acordo com os dados do ficheiro.
 	char ch;
 	GLuint XVal = 0;
 	GLuint ZVal = 0;
@@ -245,7 +218,7 @@ int main(void) {
 		mazeIndices.insert(mazeIndices.end(), newBlockIndices.begin(), newBlockIndices.end());
 	}
 
-	// Fecha o arquivo
+	//Fecha o arquivo
 	file.close();
 
 	//Criação do shader program a partir dos shaders
@@ -274,12 +247,11 @@ int main(void) {
 	//Ativação do shader program
 	shaderProgram.Activate();
 
-	// Variables that help the rotation of the pyramid
-	float rotation = 0.0f;
-	double prevTime = glfwGetTime();
-
 	//Ativação do teste de profundidade
 	glEnable(GL_DEPTH_TEST);
+
+	//Cria o objeto câmera
+	Camera camera(width, height, glm::vec3(15.0f, 40.0f, 15.0f));
 
 	#pragma endregion
 
@@ -294,39 +266,24 @@ int main(void) {
 		//Limpa o BACK BUFFER e o DEPTH BUFFER
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		//Recebe os inputs da câmera
+		camera.Inputs(window);
+
+		//Atualiza a matriz da câmera
+		camera.updateMatrix(45.0f, 0.1f, 1000.0f);
+
 		//Ativação do shader program
 		shaderProgram.Activate();
 
-		// Simple timer
-		double crntTime = glfwGetTime();
-		if (crntTime - prevTime >= 1 / 60)
-		{
-			rotation += 0.1f;
-			prevTime = crntTime;
-		}
-
 		//Inicialização das matrizes model, view e projection
 		glm::mat4 model = glm::mat4(1.0f);
-		glm::mat4 view = glm::mat4(1.0f);
-		glm::mat4 proj = glm::mat4(1.0f);
 
-		//Rotaciona o modelo
-		//model = glm::rotate(model, glm::radians(rotation), glm::vec3(0.0f, 1.0f, 0.0f));
-
-		//Posiciona a câmera
-		view = glm::translate(view, glm::vec3(-15.0f, 20.0f, -30.0f));
-		view = glm::rotate(view, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-
-		//Adiciona a perspectiva
-		proj = glm::perspective(glm::radians(45.0f), (float)width / height, 0.1f, 100.0f);
-
-		//Vincula as matrizes aos seus respectivos uniforms
+		//Exporta a matriz model ao seu uniform, no vertex shader
 		int modelLoc = glGetUniformLocation(shaderProgram.ID, "model");
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		int viewLoc = glGetUniformLocation(shaderProgram.ID, "view");
-		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-		int projLoc = glGetUniformLocation(shaderProgram.ID, "proj");
-		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(proj));
+
+		//Exporta a camMatrix (view * projection) ao seu unfirom, no vertex shader
+		camera.Matrix(shaderProgram, "camMatrix");
 
 		//Binding do VAO
 		VAO1.Bind();

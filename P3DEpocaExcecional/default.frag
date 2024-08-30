@@ -10,10 +10,10 @@ in vec3 Color;
 void main()
 {
 	//Direção da luz direcional
-	vec3 lightDirection = normalize(vec3(-1.0f, -1.0f, 0.0f));
+	vec3 lightDirection = normalize(vec3(-1.0f, -0.5f, 0.0f));
 
 	//Iluminação ambiente
-	float ambient = 0.20f;
+	float ambient = 0.50f;
 
 	//Normal do vértice
 	vec3 normal = normalize(Normal);
