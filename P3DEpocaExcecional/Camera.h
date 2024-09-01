@@ -23,13 +23,16 @@ class Camera
 public:
 	//Principais vetores da câmera
 	glm::vec3 Position;
-	glm::vec3 Up = glm::vec3(0.0f, 0.0f, -1.0f);
+	glm::vec3 Up = glm::vec3(0.0f, 1.0f, 0.0f);
 	glm::mat4 cameraMatrix = glm::mat4(1.0f);
 	glm::vec3 AddToCamTarget;
 
 	//Altura e largura da janela
 	int width;
 	int height;
+
+	//Escala ortogonal
+	float orthogonalScale = 20.0f;
 
 	//Velocidade da câmer
 	float speed = 0.05f;

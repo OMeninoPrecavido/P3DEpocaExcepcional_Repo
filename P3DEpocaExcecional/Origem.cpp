@@ -251,7 +251,7 @@ int main(void) {
 	glEnable(GL_DEPTH_TEST);
 
 	//Cria o objeto câmera
-	Camera camera(width, height, glm::vec3(15.0f, 40.0f, 15.0f));
+	Camera camera(width, height, glm::vec3(0.0f, 15.0f * float(sqrt(2)), 30.0f));
 
 	#pragma endregion
 

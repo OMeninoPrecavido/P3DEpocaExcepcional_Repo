@@ -17,8 +17,8 @@ void Camera::updateMatrix(float FOVdeg, float nearPlane, float farPlane)
 	glm::mat4 projection = glm::mat4(1.0f);
 
 	//Posiciona a câmera
-	glm::vec3 cameraTarget = glm::vec3(30.0f / 2.0f, 0.0f, 30.0f / 2.0f);
-	glm::vec3 up = glm::vec3(0.0f, 0.0f, -1.0f);
+	glm::vec3 cameraTarget = glm::vec3(15.0f, 0.0f, 15.0f);
+	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
 
 	view = glm::lookAt(Position, cameraTarget + AddToCamTarget , up);
 
@@ -26,7 +26,17 @@ void Camera::updateMatrix(float FOVdeg, float nearPlane, float farPlane)
 	//view = glm::lookAt(Position, cameraTarget, up);
 
 	//Adiciona perspectiva a cena
-	projection = glm::perspective(glm::radians(FOVdeg), (float)width / height, nearPlane, farPlane);
+
+	// Definir os limites da projeção ortográfica
+	float aspectRatio = (float)width / height;
+	float orthoScale = orthogonalScale; // ajuste conforme necessário
+	float left = -orthoScale * aspectRatio;
+	float right = orthoScale * aspectRatio;
+	float bottom = -orthoScale;
+	float top = orthoScale;
+
+	//projection = glm::perspective(glm::radians(FOVdeg), (float)width / height, nearPlane, farPlane);
+	projection = glm::ortho(left, right, bottom, top, nearPlane, farPlane);
 
 	//Define o valor da matriz da câmera
 	cameraMatrix = projection * view;
@@ -45,33 +55,31 @@ void Camera::Inputs(GLFWwindow* window)
 	//Inputs para a movimentação
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 	{
-		Position += speed * glm::vec3(0.0f, 0.0f, -1.0f);
-		AddToCamTarget += speed * glm::vec3(0.0f, 0.0f, -1.0f);
+		Position += speed * glm::vec3(1.0f, 0.0f, -1.0f);
+		AddToCamTarget += speed * glm::vec3(1.0f, 0.0f, -1.0f);
 	}
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 	{
-		Position += speed * glm::vec3(-1.0f, 0.0f, 0.0f);
-		AddToCamTarget += speed * glm::vec3(-1.0f, 0.0f, 0.0f);
+		Position += speed * glm::vec3(-1.0f, 0.0f, -1.0f);
+		AddToCamTarget += speed * glm::vec3(-1.0f, 0.0f, -1.0f);
 	}
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 	{
-		Position += speed * glm::vec3(0.0f, 0.0f, 1.0f);
-		AddToCamTarget += speed * glm::vec3(0.0f, 0.0f, 1.0f);
+		Position += speed * glm::vec3(-1.0f, 0.0f, 1.0f);
+		AddToCamTarget += speed * glm::vec3(-1.0f, 0.0f, 1.0f);
 	}
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 	{
-		Position += speed * glm::vec3(1.0f, 0.0f, 0.0f);
-		AddToCamTarget += speed * glm::vec3(1.0f, 0.0f, 0.0f);
+		Position += speed * glm::vec3(1.0f, 0.0f, 1.0f);
+		AddToCamTarget += speed * glm::vec3(1.0f, 0.0f, 1.0f);
 	}
 	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
 	{
-		Position += speed * glm::vec3(0.0f, 1.0f, 0.0f);
-		AddToCamTarget += speed * glm::vec3(0.0f, 1.0f, 0.0f);
+		orthogonalScale += speed;
 	}
 	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
 	{
-		Position += speed * glm::vec3(0.0f, -1.0f, 0.0f);
-		AddToCamTarget += speed * glm::vec3(0.0f, -1.0f, 0.0f);
+		orthogonalScale -= speed;
 	}
 	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 	{
