@@ -43,6 +43,7 @@ public:
 	//Atualiza a matriz da câmera (view * projection)
 	void updateMatrix(float FOVdeg, float nearPlane, float farPlane);
 
+	//Atualiza a matriz da câmera do minimapa
 	void updateMinimapMatrix(float FOVdeg, float nearPlane, float farPlane);
 
 	//Exporta a matriz da câmera ao vertex shader

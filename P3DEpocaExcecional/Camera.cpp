@@ -42,6 +42,7 @@ void Camera::updateMatrix(float FOVdeg, float nearPlane, float farPlane)
 	cameraMatrix = projection * view;
 }
 
+//Atualiza a matriz da câmera do minimapa
 void Camera::updateMinimapMatrix(float FOVdeg, float nearPlane, float farPlane) {
 	//Inicialização das matrizes view e projection
 	glm::mat4 view = glm::mat4(1.0f);
@@ -52,9 +53,6 @@ void Camera::updateMinimapMatrix(float FOVdeg, float nearPlane, float farPlane) 
 	glm::vec3 up = glm::vec3(0.0f, 0.0f, -1.0f);
 
 	view = glm::lookAt(Position, cameraTarget, up);
-
-	//Para outro efeito de movimentação:
-	//view = glm::lookAt(Position, cameraTarget, up);
 
 	//Adiciona perspectiva a cena
 	projection = glm::perspective(glm::radians(FOVdeg), (float)width / height, nearPlane, farPlane);
