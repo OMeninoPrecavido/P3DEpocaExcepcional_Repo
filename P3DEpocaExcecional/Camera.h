@@ -34,7 +34,7 @@ public:
 	//Escala ortogonal
 	float orthogonalScale = 20.0f;
 
-	//Velocidade da câmer
+	//Velocidade da câmera
 	float speed = 0.05f;
 
 	//Construtor -> Recebe a altura e largura da janela e a posição da câmera
@@ -42,6 +42,8 @@ public:
 
 	//Atualiza a matriz da câmera (view * projection)
 	void updateMatrix(float FOVdeg, float nearPlane, float farPlane);
+
+	void updateMinimapMatrix(float FOVdeg, float nearPlane, float farPlane);
 
 	//Exporta a matriz da câmera ao vertex shader
 	void Matrix(Shader& shader, const char* uniform);

@@ -1,22 +1,23 @@
 ﻿  Origem.cpp
-C:\Users\andre\OneDrive\Documents\RepositoriosFaculdade\P3DEpocaExcecional\P3DEpocaExcepcional_Repo\P3DEpocaExcecional\Origem.cpp(210,48): warning C4267: 'argumento': conversão de 'size_t' para '_Ty', possível perda de dados
+C:\Users\andre\OneDrive\Documents\RepositoriosFaculdade\P3DEpocaExcecional\P3DEpocaExcepcional_Repo\P3DEpocaExcecional\Origem.cpp(214,48): warning C4267: 'argumento': conversão de 'size_t' para '_Ty', possível perda de dados
           with
           [
               _Ty=GLuint
           ]
-C:\Users\andre\OneDrive\Documents\RepositoriosFaculdade\P3DEpocaExcecional\P3DEpocaExcepcional_Repo\P3DEpocaExcecional\Origem.cpp(221,48): warning C4267: 'argumento': conversão de 'size_t' para '_Ty', possível perda de dados
+C:\Users\andre\OneDrive\Documents\RepositoriosFaculdade\P3DEpocaExcecional\P3DEpocaExcepcional_Repo\P3DEpocaExcecional\Origem.cpp(225,48): warning C4267: 'argumento': conversão de 'size_t' para '_Ty', possível perda de dados
           with
           [
               _Ty=GLuint
           ]
-C:\Users\andre\OneDrive\Documents\RepositoriosFaculdade\P3DEpocaExcecional\P3DEpocaExcepcional_Repo\P3DEpocaExcecional\Origem.cpp(305,70): warning C4267: 'argumento': conversão de 'size_t' para 'GLsizei', possível perda de dados
+C:\Users\andre\OneDrive\Documents\RepositoriosFaculdade\P3DEpocaExcecional\P3DEpocaExcepcional_Repo\P3DEpocaExcecional\Origem.cpp(369,70): warning C4267: 'argumento': conversão de 'size_t' para 'GLsizei', possível perda de dados
+C:\Users\andre\OneDrive\Documents\RepositoriosFaculdade\P3DEpocaExcecional\P3DEpocaExcepcional_Repo\P3DEpocaExcecional\Origem.cpp(383,70): warning C4267: 'argumento': conversão de 'size_t' para 'GLsizei', possível perda de dados
 LINK : warning LNK4098: defaultlib 'LIBCMT' conflita com uso de outras bibliotecas; use /NODEFAULTLIB:library
   Gerando código
-  1 of 418 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
+  1 of 423 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     0 functions had inline decision re-evaluated but remain unchanged
   Finalizada a geração de código
 LINK : warning LNK4286: o símbolo '__glewUniformMatrix4fv' definido em 'glew32s.lib(glew.obj)' é importado por 'Camera.obj'
 LINK : warning LNK4286: o símbolo '__glewGetUniformLocation' definido em 'glew32s.lib(glew.obj)' é importado por 'Camera.obj'
-glew32s.lib(glew.obj) : warning LNK4099: PDB '' não foi encontrado 'glew32s.lib(glew.obj)' ou no ''; vinculando objeto quando quando sem nenhuma informação de depuração
+glew32s.lib(glew.obj) : warning LNK4099: PDB 'vc120.pdb' não foi encontrado 'glew32s.lib(glew.obj)' ou no 'C:\Users\andre\OneDrive\Documents\RepositoriosFaculdade\P3DEpocaExcecional\P3DEpocaExcepcional_Repo\x64\Release\vc120.pdb'; vinculando objeto quando quando sem nenhuma informação de depuração
   P3DEpocaExcecional.vcxproj -> C:\Users\andre\OneDrive\Documents\RepositoriosFaculdade\P3DEpocaExcecional\P3DEpocaExcepcional_Repo\x64\Release\P3DEpocaExcecional.exe

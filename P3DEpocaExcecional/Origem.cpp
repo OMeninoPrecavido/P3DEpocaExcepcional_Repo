@@ -114,15 +114,16 @@ std::vector<GLuint> blockIndices =
 };
 
 //
+// Vértices do quad
 float quadVertices[] = {
-	// Posições    // Coordenadas de textura
-	-1.0f,  1.0f,  0.0f, 1.0f,
-	-1.0f, -1.0f,  0.0f, 0.0f,
-	 1.0f, -1.0f,  1.0f, 0.0f,
+    // Posições        // Coordenadas de textura
+    -1.0f,  1.0f, 0.0f,  0.0f, 1.0f, // Topo esquerdo
+    -1.0f, -1.0f, 0.0f,  0.0f, 0.0f, // Inferior esquerdo
+     1.0f, -1.0f, 0.0f,  1.0f, 0.0f, // Inferior direito
 
-	-1.0f,  1.0f,  0.0f, 1.0f,
-	 1.0f, -1.0f,  1.0f, 0.0f,
-	 1.0f,  1.0f,  1.0f, 1.0f
+    -1.0f,  1.0f, 0.0f,  0.0f, 1.0f, // Topo esquerdo
+     1.0f, -1.0f, 0.0f,  1.0f, 0.0f, // Inferior direito
+     1.0f,  1.0f, 0.0f,  1.0f, 1.0f  // Topo direito
 };
 //
 
@@ -132,6 +133,9 @@ float quadVertices[] = {
 
 const unsigned int height = 800;
 const unsigned int width = 800;
+
+const unsigned int minimapHeight = height / 4;
+const unsigned int minimapWidth = width / 4;
 
 #pragma endregion
 
@@ -237,6 +241,8 @@ int main(void) {
 	//Criação do shader program a partir dos shaders
 	Shader shaderProgram("default.vert", "default.frag");
 
+	Shader minimapShader("minimap.vert", "minimap.frag");
+
 	//Criação e binding do VAO
 	VAO VAO1;
 	VAO1.Bind();
@@ -257,6 +263,60 @@ int main(void) {
 	VBO1.Unbind();
 	EBO1.Unbind();
 
+	// IDs para o framebuffer e a textura
+	GLuint minimapFBO;
+	GLuint minimapTexture;
+
+	// Passo 1: Gerar e configurar o framebuffer
+	glGenFramebuffers(1, &minimapFBO);
+	glBindFramebuffer(GL_FRAMEBUFFER, minimapFBO);
+
+	// Passo 2: Criar uma textura para armazenar o minimapa
+	glGenTextures(1, &minimapTexture);
+	glBindTexture(GL_TEXTURE_2D, minimapTexture);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, minimapWidth, minimapHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+
+	// Parâmetros de textura
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	// Associar a textura ao framebuffer
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, minimapTexture, 0);
+
+	// Verificar se o framebuffer está completo
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+		std::cerr << "Erro ao criar o framebuffer para o minimapa!" << std::endl;
+	}
+
+	// Desvincular o framebuffer atual
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	// IDs para o VAO e VBO do quad
+	GLuint quadVAO, quadVBO;
+
+	// Geração e configuração do VAO e VBO do quad
+	glGenVertexArrays(1, &quadVAO);
+	glGenBuffers(1, &quadVBO);
+
+	glBindVertexArray(quadVAO);
+
+	glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), quadVertices, GL_STATIC_DRAW);
+
+	// Atributo de posição
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+
+	// Atributo de coordenada de textura
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
+
+	// Desvincular VAO e VBO
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+
 	//Ativação do shader program
 	shaderProgram.Activate();
 
@@ -266,12 +326,16 @@ int main(void) {
 	//Cria o objeto câmera
 	Camera camera(width, height, glm::vec3(0.0f, 15.0f * float(sqrt(2)), 30.0f));
 
+	Camera minimapCam(width, height, glm::vec3(15.0f, 40.0f, 15.0f));
+
 	#pragma endregion
 
 	#pragma region Loop do programa
 
 	//Loop while principal. Roda o programa até que a janela seja fechada
 	while (!glfwWindowShouldClose(window)) {
+
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 		//Define a cor do fundo
 		glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
@@ -304,10 +368,45 @@ int main(void) {
 		//Desenha os vértices
 		glDrawElements(GL_TRIANGLES, mazeIndices.size(), GL_UNSIGNED_INT, 0);
 
+
+		//
+
+		// Passo 1: Renderizar o minimapa no framebuffer
+		glBindFramebuffer(GL_FRAMEBUFFER, minimapFBO);
+		glViewport(0, 0, minimapWidth, minimapHeight);
+		glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		minimapCam.updateMinimapMatrix(45.0f, 0.1f, 100.0f);
+		minimapCam.Matrix(shaderProgram, "camMatrix");
+		
+		glDrawElements(GL_TRIANGLES, mazeIndices.size(), GL_UNSIGNED_INT, 0);
+
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		VAO1.Unbind();
+
+		// Passo 2: Renderizar o minimapa como um quad na janela principal
+		glViewport(0, 0, minimapWidth, minimapHeight);
+		glDisable(GL_DEPTH_TEST);
+		minimapShader.Activate();
+		glUniform1i(glGetUniformLocation(minimapShader.ID, "minimapTexture"), 0); // 0 se a textura estiver na unidade de textura 0
+		// Vincula a textura
+		glActiveTexture(GL_TEXTURE0); // Unidade de textura 0
+		glBindTexture(GL_TEXTURE_2D, minimapTexture);
+
+		glBindVertexArray(quadVAO);
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+		glBindVertexArray(0);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		glEnable(GL_DEPTH_TEST);
+		//
+
+		glViewport(0, 0, height, width);
+
 		//Troca as imagens do BACK BUFFER com as do FRONT BUFFER
 		glfwSwapBuffers(window);
 
-		glViewport(0, 0, height, width);
+
 
 		//Processa os eventos do GLFW
 		glfwPollEvents();

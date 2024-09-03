@@ -1,11 +1,16 @@
 #version 330 core
+
+// Entrada do vertex shader
+in vec2 TexCoords;
+
+// Saída da cor final do fragmento
 out vec4 FragColor;
 
-in vec2 TexCoord;
-
-uniform sampler2D minimapTexture; // A textura do minimapa
+// Uniform para a textura do minimapa
+uniform sampler2D minimapTexture;
 
 void main()
 {
-    FragColor = texture(minimapTexture, TexCoord); // Pegar a cor da textura
+    // Busca a cor da textura usando as coordenadas de textura
+    FragColor = texture(minimapTexture, TexCoords);
 }
