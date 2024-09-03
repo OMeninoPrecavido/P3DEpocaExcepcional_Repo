@@ -156,6 +156,8 @@
   <ItemGroup>
     <None Include="default.frag" />
     <None Include="default.vert" />
+    <None Include="minimap.frag" />
+    <None Include="minimap.vert" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="labirinto.txt" />

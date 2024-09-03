@@ -64,6 +64,12 @@
     <None Include="default.frag">
       <Filter>Arquivos de Recurso\Shaders</Filter>
     </None>
+    <None Include="minimap.vert">
+      <Filter>Arquivos de Recurso\Shaders</Filter>
+    </None>
+    <None Include="minimap.frag">
+      <Filter>Arquivos de Recurso\Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="labirinto.txt">

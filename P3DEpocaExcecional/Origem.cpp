@@ -113,6 +113,19 @@ std::vector<GLuint> blockIndices =
 	20, 22, 23 // Top side
 };
 
+//
+float quadVertices[] = {
+	// Posições    // Coordenadas de textura
+	-1.0f,  1.0f,  0.0f, 1.0f,
+	-1.0f, -1.0f,  0.0f, 0.0f,
+	 1.0f, -1.0f,  1.0f, 0.0f,
+
+	-1.0f,  1.0f,  0.0f, 1.0f,
+	 1.0f, -1.0f,  1.0f, 0.0f,
+	 1.0f,  1.0f,  1.0f, 1.0f
+};
+//
+
 #pragma endregion
 
 #pragma region Constantes
@@ -275,14 +288,14 @@ int main(void) {
 		//Ativação do shader program
 		shaderProgram.Activate();
 
-		//Inicialização das matrizes model, view e projection
+		//Inicialização da matriz model
 		glm::mat4 model = glm::mat4(1.0f);
 
 		//Exporta a matriz model ao seu uniform, no vertex shader
 		int modelLoc = glGetUniformLocation(shaderProgram.ID, "model");
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 
-		//Exporta a camMatrix (view * projection) ao seu unfirom, no vertex shader
+		//Exporta a camMatrix (view * projection) ao seu uniform, no vertex shader
 		camera.Matrix(shaderProgram, "camMatrix");
 
 		//Binding do VAO
@@ -293,6 +306,8 @@ int main(void) {
 
 		//Troca as imagens do BACK BUFFER com as do FRONT BUFFER
 		glfwSwapBuffers(window);
+
+		glViewport(0, 0, height, width);
 
 		//Processa os eventos do GLFW
 		glfwPollEvents();
