@@ -386,7 +386,10 @@ int main(void) {
 		VAO1.Unbind();
 
 		// Passo 2: Renderizar o minimapa como um quad na janela principal
-		glViewport(0, 0, minimapWidth, minimapHeight);
+		int minimapX = 0;
+		int minimapY = height - minimapHeight; // Para alinhar o topo do minimapa ao topo da janela principal
+
+		glViewport(minimapX, minimapY, minimapWidth, minimapHeight);
 		glDisable(GL_DEPTH_TEST);
 		minimapShader.Activate();
 		glUniform1i(glGetUniformLocation(minimapShader.ID, "minimapTexture"), 0); // 0 se a textura estiver na unidade de textura 0
